@@ -1,4 +1,4 @@
-public class PalindromeCheckerUC4 {
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
         String input = "racecar";
