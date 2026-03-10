@@ -1,33 +1,66 @@
-import java.util.Scanner;
+import java.util.*;
 
-class PalindromeChecker {
+interface PalindromeStrategy {
+    boolean checkPalindrome(String input);
+}
 
-    public boolean checkPalindrome(String str) {
-        int start = 0;
-        int end = str.length() - 1;
+class StackStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String input) {
+        Stack<Character> stack = new Stack<>();
 
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end)) {
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
                 return false;
             }
-            start++;
-            end--;
         }
+
         return true;
     }
 }
 
-public class UseCase11PalindromeCheckerApp {
+class DequeStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String input) {
+        Deque<Character> deque = new LinkedList<>();
+
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        PalindromeChecker checker = new PalindromeChecker();
+        System.out.println("Choose Strategy: 1.Stack  2.Deque");
+        int choice = sc.nextInt();
 
-        boolean result = checker.checkPalindrome(input);
+        PalindromeStrategy strategy;
+
+        if (choice == 1) {
+            strategy = new StackStrategy();
+        } else {
+            strategy = new DequeStrategy();
+        }
+
+        boolean result = strategy.checkPalindrome(input);
 
         if (result) {
             System.out.println("The given string is a Palindrome.");
