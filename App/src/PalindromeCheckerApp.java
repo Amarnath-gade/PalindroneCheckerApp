@@ -1,11 +1,8 @@
 import java.util.*;
 
-interface PalindromeStrategy {
-    boolean checkPalindrome(String input);
-}
+public class PalindromeCheckerApp {
 
-class StackStrategy implements PalindromeStrategy {
-    public boolean checkPalindrome(String input) {
+    public static boolean stackPalindrome(String input) {
         Stack<Character> stack = new Stack<>();
 
         for (char c : input.toCharArray()) {
@@ -20,10 +17,8 @@ class StackStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
 
-class DequeStrategy implements PalindromeStrategy {
-    public boolean checkPalindrome(String input) {
+    public static boolean dequePalindrome(String input) {
         Deque<Character> deque = new LinkedList<>();
 
         for (char c : input.toCharArray()) {
@@ -38,35 +33,26 @@ class DequeStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
-
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        System.out.println("Choose Strategy: 1.Stack  2.Deque");
-        int choice = sc.nextInt();
+        long start1 = System.nanoTime();
+        boolean result1 = stackPalindrome(input);
+        long end1 = System.nanoTime();
 
-        PalindromeStrategy strategy;
+        long start2 = System.nanoTime();
+        boolean result2 = dequePalindrome(input);
+        long end2 = System.nanoTime();
 
-        if (choice == 1) {
-            strategy = new StackStrategy();
-        } else {
-            strategy = new DequeStrategy();
-        }
+        System.out.println("Stack Method Result: " + result1);
+        System.out.println("Stack Method Time: " + (end1 - start1) + " ns");
 
-        boolean result = strategy.checkPalindrome(input);
-
-        if (result) {
-            System.out.println("The given string is a Palindrome.");
-        } else {
-            System.out.println("The given string is NOT a Palindrome.");
-        }
+        System.out.println("Deque Method Result: " + result2);
+        System.out.println("Deque Method Time: " + (end2 - start2) + " ns");
 
         sc.close();
     }
